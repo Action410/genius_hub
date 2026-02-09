@@ -15,6 +15,9 @@ export default function CheckoutPage() {
     phone: '',
     address: '',
     city: '',
+    paymentMethod: 'card',
+    network: '',
+    mobileMoneyNumber: '',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isPaystackReady, setIsPaystackReady] = useState(false)
@@ -59,9 +62,13 @@ export default function CheckoutPage() {
     if (!formData.email) newErrors.email = 'Email is required'
     if (!formData.firstName) newErrors.firstName = 'First name is required'
     if (!formData.lastName) newErrors.lastName = 'Last name is required'
-    if (!formData.phone) newErrors.phone = 'Phone number is required'
+    if (!formData.phone) newErrors.phone = 'Phone number (for data delivery) is required'
     if (!formData.address) newErrors.address = 'Address is required'
     if (!formData.city) newErrors.city = 'City is required'
+    if (formData.paymentMethod === 'mobile') {
+      if (!formData.network) newErrors.network = 'Network is required'
+      if (!formData.mobileMoneyNumber) newErrors.mobileMoneyNumber = 'Mobile money number is required'
+    }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -117,6 +124,21 @@ export default function CheckoutPage() {
             display_name: 'City',
             variable_name: 'city',
             value: formData.city,
+          },
+          {
+            display_name: 'Payment Method',
+            variable_name: 'payment_method',
+            value: formData.paymentMethod,
+          },
+          {
+            display_name: 'Network',
+            variable_name: 'network',
+            value: formData.network,
+          },
+          {
+            display_name: 'Mobile Money Number',
+            variable_name: 'mobile_money_number',
+            value: formData.mobileMoneyNumber,
           },
         ],
       },
@@ -215,6 +237,103 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
+                {/* Payment Method */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Payment Method *
+                  </label>
+                  <div className="flex space-x-4">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="card"
+                        checked={formData.paymentMethod === 'card'}
+                        onChange={(e) =>
+                          setFormData({ ...formData, paymentMethod: e.target.value })
+                        }
+                        className="mr-2"
+                      />
+                      Card
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="mobile"
+                        checked={formData.paymentMethod === 'mobile'}
+                        onChange={(e) =>
+                          setFormData({ ...formData, paymentMethod: e.target.value })
+                        }
+                        className="mr-2"
+                      />
+                      Mobile Money
+                    </label>
+                  </div>
+                </div>
+
+                {/* Mobile Money Options */}
+                {formData.paymentMethod === 'mobile' && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Network *
+                      </label>
+                      <div className="flex space-x-4">
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, network: 'telecel' })}
+                          className={`px-4 py-2 rounded-md font-semibold ${
+                            formData.network === 'telecel'
+                              ? 'bg-red-500 text-white'
+                              : 'bg-gray-200 text-gray-700'
+                          }`}
+                        >
+                          Telecel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, network: 'airteltigo' })}
+                          className={`px-4 py-2 rounded-md font-semibold ${
+                            formData.network === 'airteltigo'
+                              ? 'bg-blue-500 text-white'
+                              : 'bg-gray-200 text-gray-700'
+                          }`}
+                        >
+                          AirtelTigo
+                        </button>
+                      </div>
+                      {errors.network && (
+                        <p className="text-red-500 text-sm mt-1">{errors.network}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="mobileMoneyNumber"
+                        className="block text-sm font-semibold text-gray-700 mb-2"
+                      >
+                        Mobile Money Number *
+                      </label>
+                      <input
+                        type="tel"
+                        id="mobileMoneyNumber"
+                        value={formData.mobileMoneyNumber}
+                        onChange={(e) =>
+                          setFormData({ ...formData, mobileMoneyNumber: e.target.value })
+                        }
+                        className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
+                          errors.mobileMoneyNumber ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                        placeholder="+233 XX XXX XXXX"
+                      />
+                      {errors.mobileMoneyNumber && (
+                        <p className="text-red-500 text-sm mt-1">{errors.mobileMoneyNumber}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
@@ -274,7 +393,7 @@ export default function CheckoutPage() {
                     htmlFor="phone"
                     className="block text-sm font-semibold text-gray-700 mb-2"
                   >
-                    Phone Number *
+                    Phone Number (for data delivery) *
                   </label>
                   <input
                     type="tel"
