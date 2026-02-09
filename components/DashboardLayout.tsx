@@ -100,6 +100,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden text-gray-700 dark:text-gray-300"
+              title="Toggle menu"
+              aria-label="Toggle navigation menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />

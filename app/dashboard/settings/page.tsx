@@ -67,6 +67,7 @@ export default function SettingsPage() {
               ref={fileInputRef}
               type="file"
               accept="image/*"
+              title="Upload profile picture"
               onChange={handleImageUpload}
               className="hidden"
             />
@@ -89,6 +90,7 @@ export default function SettingsPage() {
             </label>
             <input
               type="text"
+              placeholder="Enter your full name"
               value={profileData.name}
               onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-tesla-red"
@@ -101,6 +103,7 @@ export default function SettingsPage() {
             </label>
             <input
               type="email"
+              placeholder="Enter your email address"
               value={profileData.email}
               onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-tesla-red"
@@ -113,6 +116,7 @@ export default function SettingsPage() {
             </label>
             <input
               type="tel"
+              placeholder="Enter your phone number"
               value={profileData.phone}
               onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-tesla-red"

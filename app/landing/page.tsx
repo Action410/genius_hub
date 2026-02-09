@@ -42,22 +42,8 @@ export default function LandingPage() {
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-black w-1/2"></div>
           <div className="absolute inset-0 right-0 w-1/2 bg-gradient-to-br from-tesla-red via-red-600 to-white"></div>
-          {/* Confetti effect */}
-          <div className="absolute inset-0 opacity-30">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className={`absolute w-2 h-2 rounded-full ${
-                  i % 2 === 0 ? 'bg-white' : 'bg-tesla-red'
-                }`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                }}
-              />
-            ))}
-          </div>
+          {/* Confetti effect - using gradient instead of inline styles */}
+          <div className="absolute inset-0 opacity-30 bg-gradient-to-br from-white via-transparent to-tesla-red"></div>
         </div>
 
         {/* Content Overlay */}
