@@ -1,18 +1,20 @@
 'use client'
 
 import { useCart } from '@/context/CartContext'
-import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 export default function CheckoutPage() {
   const { cart, getTotalPrice, clearCart } = useCart()
   const router = useRouter()
   const [formData, setFormData] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
     phone: '',
-    paymentMethod: 'card',
-    network: '',
-    mobileMoneyNumber: '',
+    address: '',
+    city: '',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isPaystackReady, setIsPaystackReady] = useState(false)
@@ -54,11 +56,12 @@ export default function CheckoutPage() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
-    if (!formData.phone) newErrors.phone = 'Phone number (for data delivery) is required'
-    if (formData.paymentMethod === 'mobile') {
-      if (!formData.network) newErrors.network = 'Network is required'
-      if (!formData.mobileMoneyNumber) newErrors.mobileMoneyNumber = 'Mobile money number is required'
-    }
+    if (!formData.email) newErrors.email = 'Email is required'
+    if (!formData.firstName) newErrors.firstName = 'First name is required'
+    if (!formData.lastName) newErrors.lastName = 'Last name is required'
+    if (!formData.phone) newErrors.phone = 'Phone number is required'
+    if (!formData.address) newErrors.address = 'Address is required'
+    if (!formData.city) newErrors.city = 'City is required'
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -84,31 +87,36 @@ export default function CheckoutPage() {
 
     const handler = (window as any).PaystackPop.setup({
       key: PAYSTACK_PUBLIC_KEY,
-      email: formData.paymentMethod === 'mobile' ? formData.mobileMoneyNumber : 'card@example.com',
+      email: formData.email,
       amount: amountInKobo,
       currency: 'GHS', // Ghana Cedis
       ref: new Date().getTime().toString(),
       metadata: {
         custom_fields: [
           {
+            display_name: 'First Name',
+            variable_name: 'first_name',
+            value: formData.firstName,
+          },
+          {
+            display_name: 'Last Name',
+            variable_name: 'last_name',
+            value: formData.lastName,
+          },
+          {
             display_name: 'Phone',
             variable_name: 'phone',
             value: formData.phone,
           },
           {
-            display_name: 'Payment Method',
-            variable_name: 'payment_method',
-            value: formData.paymentMethod,
+            display_name: 'Address',
+            variable_name: 'address',
+            value: formData.address,
           },
           {
-            display_name: 'Network',
-            variable_name: 'network',
-            value: formData.network,
-          },
-          {
-            display_name: 'Mobile Money Number',
-            variable_name: 'mobile_money_number',
-            value: formData.mobileMoneyNumber,
+            display_name: 'City',
+            variable_name: 'city',
+            value: formData.city,
           },
         ],
       },
@@ -185,10 +193,88 @@ export default function CheckoutPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
+                    htmlFor="email"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
+                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="your@email.com"
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="firstName"
+                      className="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                      First Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
+                      className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
+                        errors.firstName ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                      placeholder="John"
+                    />
+                    {errors.firstName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.firstName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="lastName"
+                      className="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                      Last Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      value={formData.lastName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
+                      className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
+                        errors.lastName ? 'border-red-500' : 'border-gray-300'
+                      }`}
+                      placeholder="Doe"
+                    />
+                    {errors.lastName && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.lastName}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label
                     htmlFor="phone"
                     className="block text-sm font-semibold text-gray-700 mb-2"
                   >
-                    Phone Number (for data delivery) *
+                    Phone Number *
                   </label>
                   <input
                     type="tel"
@@ -207,113 +293,55 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
-                {/* Payment Method */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Payment Method *
+                  <label
+                    htmlFor="address"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    Address *
                   </label>
-                  <div className="flex space-x-4">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="card"
-                        checked={formData.paymentMethod === 'card'}
-                        onChange={(e) =>
-                          setFormData({ ...formData, paymentMethod: e.target.value })
-                        }
-                        className="mr-2"
-                      />
-                      Card
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="mobile"
-                        checked={formData.paymentMethod === 'mobile'}
-                        onChange={(e) =>
-                          setFormData({ ...formData, paymentMethod: e.target.value })
-                        }
-                        className="mr-2"
-                      />
-                      Mobile Money
-                    </label>
-                  </div>
+                  <input
+                    type="text"
+                    id="address"
+                    value={formData.address}
+                    onChange={(e) =>
+                      setFormData({ ...formData, address: e.target.value })
+                    }
+                    className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
+                      errors.address ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Street address"
+                  />
+                  {errors.address && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.address}
+                    </p>
+                  )}
                 </div>
 
-                {/* Mobile Money Options */}
-                {formData.paymentMethod === 'mobile' && (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Network *
-                      </label>
-                      <div className="flex space-x-4">
-                        <button
-                          type="button"
-                          onClick={() => setFormData({ ...formData, network: 'telecel' })}
-                          className={`px-4 py-2 rounded-md font-semibold ${
-                            formData.network === 'telecel'
-                              ? 'bg-red-500 text-white'
-                              : 'bg-gray-200 text-gray-700'
-                          }`}
-                        >
-                          Telecel
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setFormData({ ...formData, network: 'airteltigo' })}
-                          className={`px-4 py-2 rounded-md font-semibold ${
-                            formData.network === 'airteltigo'
-                              ? 'bg-blue-500 text-white'
-                              : 'bg-gray-200 text-gray-700'
-                          }`}
-                        >
-                          AirtelTigo
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setFormData({ ...formData, network: 'mtn' })}
-                          className={`px-4 py-2 rounded-md font-semibold ${
-                            formData.network === 'mtn'
-                              ? 'bg-yellow-500 text-white'
-                              : 'bg-gray-200 text-gray-700'
-                          }`}
-                        >
-                          MTN
-                        </button>
-                      </div>
-                      {errors.network && (
-                        <p className="text-red-500 text-sm mt-1">{errors.network}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="mobileMoneyNumber"
-                        className="block text-sm font-semibold text-gray-700 mb-2"
-                      >
-                        Mobile Money Number *
-                      </label>
-                      <input
-                        type="tel"
-                        id="mobileMoneyNumber"
-                        value={formData.mobileMoneyNumber}
-                        onChange={(e) =>
-                          setFormData({ ...formData, mobileMoneyNumber: e.target.value })
-                        }
-                        className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
-                          errors.mobileMoneyNumber ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                        placeholder="+233 XX XXX XXXX"
-                      />
-                      {errors.mobileMoneyNumber && (
-                        <p className="text-red-500 text-sm mt-1">{errors.mobileMoneyNumber}</p>
-                      )}
-                    </div>
-                  </div>
-                )}
+                <div>
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  >
+                    City *
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    value={formData.city}
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
+                    className={`w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-tesla-red ${
+                      errors.city ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Accra"
+                  />
+                  {errors.city && (
+                    <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+                  )}
+                </div>
 
                 <button
                   type="submit"

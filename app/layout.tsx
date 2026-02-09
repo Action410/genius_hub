@@ -18,14 +18,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="bg-white min-h-screen flex flex-col">
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
         <CartProvider>
-          <Header />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </CartProvider>
       </body>
     </html>

@@ -1,9 +1,22 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import ProductCard from '@/components/ProductCard'
-import { Product } from '@/context/CartContext'
-import Logo from '@/components/Logo'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
+// Redirect to landing page - Landing page is now the default entry point
+export default function Home() {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace('/landing')
+  }, [router])
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p>Redirecting...</p>
+    </div>
+  )
+}
 
 // Internet Data Bundles - MTN, Telecel, AirtelTigo, AFA Bundle
 const products: Product[] = [
