@@ -76,7 +76,7 @@ export default function LandingPage() {
                   href="/dashboard"
                   className="inline-block bg-tesla-red text-white px-8 py-4 rounded-lg font-bold text-lg md:text-xl hover:bg-red-700 transition-colors duration-200 shadow-xl mt-6"
                 >
-                  SHOP NOW
+                  ORDER NOW
                 </Link>
               </motion.div>
 
@@ -150,7 +150,7 @@ export default function LandingPage() {
                 href="/dashboard"
                 className="inline-block bg-tesla-red text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors duration-200 shadow-xl mt-6"
               >
-                SHOP NOW
+                ORDER NOW
               </Link>
             </motion.div>
 
@@ -232,7 +232,7 @@ export default function LandingPage() {
                 href="/dashboard"
                 className="inline-block bg-tesla-red text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors duration-200 shadow-xl mt-6"
               >
-                SHOP NOW
+                ORDER NOW
               </Link>
             </motion.div>
 

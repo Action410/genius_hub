@@ -38,7 +38,7 @@ export default function CartPage() {
               href="/"
               className="inline-block bg-tesla-red text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors duration-200 shadow-lg"
             >
-              SHOP NOW
+              ORDER NOW
             </Link>
           </motion.div>
         </div>

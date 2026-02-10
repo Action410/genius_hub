@@ -5,7 +5,7 @@
 Upload your promotional banner images to this `public` folder with the following names:
 
 1. **banner-1.jpg** - Fast Delivery Now Ongoing banner
-   - Features: Delivery person flying with cape, "FAST DELIVERY NOW ONGOING", "RELIABLE", "RESPONSIVE", "SHOP NOW"
+   - Features: Delivery person flying with cape, "FAST DELIVERY NOW ONGOING", "RELIABLE", "RESPONSIVE", "ORDER NOW"
 
 2. **banner-2.jpg** - Fast & Reliable Delivery banner
    - Features: Delivery driver on red scooter, "FAST & RELIABLE DELIVERY", "QUALITY PRODUCTS", "24/7 SERVICE", "DIRECT TO YOUR DOOR"

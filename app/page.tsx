@@ -193,7 +193,7 @@ export default function Home() {
             whileTap={{ scale: 0.95 }}
             className="bg-tesla-red text-white px-8 py-4 rounded-lg font-bold text-lg md:text-xl hover:bg-red-700 transition-colors duration-200 shadow-lg"
           >
-            SHOP NOW
+            ORDER NOW
           </motion.button>
         </div>
       </motion.section>
