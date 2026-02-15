@@ -1,106 +1,62 @@
 'use client'
 
+import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import ProductCard from '@/components/ProductCard'
 import { Product } from '@/context/CartContext'
-import Link from 'next/link'
 
-// Internet Data Bundles - MTN, Telecel, AirtelTigo, AFA Bundle
-const products: Product[] = [
-  {
-    id: 'mtn-1gb',
-    name: 'MTN 1GB Data',
-    price: 5.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '1GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'mtn-2gb',
-    name: 'MTN 2GB Data',
-    price: 10.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '2GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'mtn-5gb',
-    name: 'MTN 5GB Data',
-    price: 20.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '5GB data bundle - Valid for 30 days',
-  },
-  {
-    id: 'mtn-10gb',
-    name: 'MTN 10GB Data',
-    price: 35.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '10GB data bundle - Valid for 30 days',
-  },
-  {
-    id: 'telecel-1gb',
-    name: 'Telecel 1GB Data',
-    price: 5.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '1GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'telecel-2gb',
-    name: 'Telecel 2GB Data',
-    price: 10.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '2GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'telecel-5gb',
-    name: 'Telecel 5GB Data',
-    price: 20.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '5GB data bundle - Valid for 30 days',
-  },
-  {
-    id: 'airteltigo-1gb',
-    name: 'AirtelTigo 1GB Data',
-    price: 5.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '1GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'airteltigo-2gb',
-    name: 'AirtelTigo 2GB Data',
-    price: 10.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '2GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'airteltigo-5gb',
-    name: 'AirtelTigo 5GB Data',
-    price: 20.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '5GB data bundle - Valid for 30 days',
-  },
-  {
-    id: 'afa-1gb',
-    name: 'AFA Bundle 1GB Data',
-    price: 4.50,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '1GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'afa-2gb',
-    name: 'AFA Bundle 2GB Data',
-    price: 9.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '2GB data bundle - Valid for 7 days',
-  },
-  {
-    id: 'afa-5gb',
-    name: 'AFA Bundle 5GB Data',
-    price: 18.00,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop',
-    description: '5GB data bundle - Valid for 30 days',
-  },
-]
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=500&fit=crop'
+
+// Filter tab options: value matches bundle.network (or 'All' / display name for AT and AFA)
+const FILTER_TABS = [
+  { id: 'All', label: 'All' },
+  { id: 'MTN', label: 'MTN' },
+  { id: 'Telecel', label: 'Telecel' },
+  { id: 'AT', label: 'AirtelTigo' },
+  { id: 'AFA', label: 'AFA Bundle' },
+] as const
+
+type FilterId = (typeof FILTER_TABS)[number]['id']
+
+function bundleToProduct(b: { id: string; network: string; title: string; price: number; description?: string; badge?: string; expires?: boolean; expiry_note?: string; sizeMB?: number }): Product {
+  return {
+    id: b.id,
+    name: b.title,
+    price: Number(b.price),
+    image: DEFAULT_IMAGE,
+    description: b.description,
+    network: b.network,
+    badge: b.badge,
+    expires: b.expires,
+    expiry_note: b.expiry_note,
+    sizeMB: b.sizeMB,
+  }
+}
 
 export default function DashboardPage() {
+  const [activeFilter, setActiveFilter] = useState<FilterId>('All')
+  const [bundles, setBundles] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/bundles')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load bundles')
+        return res.json()
+      })
+      .then((data: { id: string; network: string; title: string; price: number; description?: string; badge?: string; expires?: boolean; expiry_note?: string; sizeMB?: number }[]) => {
+        setBundles(data.map(bundleToProduct))
+      })
+      .catch((err) => setError(err?.message || 'Failed to load'))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const filteredProducts = useMemo(() => {
+    if (activeFilter === 'All') return bundles
+    return bundles.filter((p) => p.network === activeFilter)
+  }, [bundles, activeFilter])
+
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
@@ -142,51 +98,60 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Products Section */}
+      {/* Data Packages Section */}
       <div>
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
             Data Packages
           </h2>
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              placeholder="Search packages..."
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-genius-red"
-            />
-          </div>
         </div>
 
-        {/* Network Filters */}
+        {/* Network filter tabs – one active at a time, instant filtering */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {['All Networks', 'MTN', 'Telecel', 'AirtelTigo', 'AFA Bundle'].map((network) => (
+          {FILTER_TABS.map((tab) => (
             <button
-              key={network}
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveFilter(tab.id)}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                network === 'All Networks'
-                  ? 'bg-genius-red text-white'
+                activeFilter === tab.id
+                  ? 'bg-genius-red text-white ring-2 ring-genius-red ring-offset-2 dark:ring-offset-gray-800'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
               }`}
             >
-              {network}
+              {tab.label}
             </button>
           ))}
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-            >
-              <ProductCard product={product} />
-            </motion.div>
-          ))}
-        </div>
+        {error && (
+          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+        )}
+
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-genius-red" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.3) }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {!loading && !error && filteredProducts.length === 0 && (
+          <p className="text-center text-gray-600 dark:text-gray-400 py-8">
+            No data packages found for this network.
+          </p>
+        )}
       </div>
     </div>
   )

@@ -20,13 +20,13 @@ export default function LandingPage() {
             </Link>
             <div className="flex items-center space-x-4 md:space-x-6">
               <Link
-                href="/dashboard"
+                href="/auth/signin"
                 className="text-white hover:text-genius-red transition-colors duration-200"
               >
                 Sign In
               </Link>
               <Link
-                href="/dashboard"
+                href="/auth/signup"
                 className="bg-genius-red text-white px-4 py-2 rounded-md font-semibold hover:bg-red-700 transition-colors duration-200"
               >
                 Get Started
@@ -388,7 +388,7 @@ export default function LandingPage() {
               Join thousands of satisfied customers. Get your data bundles delivered instantly.
             </p>
             <Link
-              href="/dashboard"
+              href="/auth/signup"
               className="inline-block bg-white text-genius-red px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg"
             >
               Go to Dashboard

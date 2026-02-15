@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import { useTheme } from '@/context/ThemeContext'
 import Logo from './Logo'
@@ -14,6 +14,7 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const { getTotalItems } = useCart()
   const { theme, toggleTheme } = useTheme()
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -29,18 +30,25 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     { name: 'Settings', href: '/dashboard/settings', icon: '⚙️' },
   ]
 
-  const isActive = (href: string) => {
-    if (href === '/dashboard') {
-      return pathname === '/dashboard'
-    }
-    return pathname?.startsWith(href)
-  }
+  // Only one menu item is active: the most specific route that matches the current pathname.
+  const activeHref = (() => {
+    const current = pathname ?? ''
+    // Sort by href length descending so we match the most specific first.
+    const sorted = [...menuItems].sort((a, b) => b.href.length - a.href.length)
+    const match = sorted.find((item) => {
+      if (item.href === '/') return current === '/'
+      return current === item.href || current.startsWith(item.href + '/')
+    })
+    return match?.href ?? null
+  })()
+
+  const isActive = (href: string) => activeHref === href
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
-      {/* Sidebar */}
+    <div className="h-full min-h-0 flex bg-gray-50 dark:bg-gray-900 overflow-hidden">
+      {/* Sidebar - fixed so it stays in place when scrolling */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         } transition-transform duration-300 ease-in-out`}
       >
@@ -92,10 +100,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         />
       )}
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header */}
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30">
+      {/* Main Content - left margin on desktop so it doesn't sit under fixed sidebar */}
+      <div className="flex-1 flex flex-col min-w-0 md:ml-64 h-full overflow-hidden">
+        {/* Top Header - stays fixed when scrolling main content */}
+        <header className="flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-30">
           <div className="flex items-center justify-between px-4 py-4">
             {/* Mobile menu button */}
             <button
@@ -164,8 +172,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <button
                       onClick={() => {
                         setProfileMenuOpen(false)
-                        // TODO: Implement logout
-                        console.log('Logout clicked')
+                        router.push('/landing')
                       }}
                       className="w-full flex items-center space-x-2 px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400"
                     >
@@ -179,8 +186,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </header>
 
-        {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
+        {/* Main Content Area - only this part scrolls */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6">
           {children}
         </main>
       </div>

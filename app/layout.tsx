@@ -30,7 +30,7 @@ export default function RootLayout({
           <CartProvider>
             <PurchaseFlowProvider>
               <LogoBar />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 pt-[4.5rem] md:pt-24">{children}</main>
               <Footer />
               <FloatingSupportButton />
               <PurchaseFlowModals />
