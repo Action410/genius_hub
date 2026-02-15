@@ -13,7 +13,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3">
-              <Logo size={45} />
+              <Logo size={56} />
               <span className="text-2xl md:text-3xl font-bold text-white">
                 Genius Data Hub
               </span>
@@ -101,7 +101,7 @@ export default function LandingPage() {
 
         {/* Logo in top right */}
         <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20">
-          <Logo size={60} />
+          <Logo size={72} />
         </div>
       </section>
 
@@ -401,7 +401,7 @@ export default function LandingPage() {
       <footer className="bg-black text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center mb-4">
-            <Logo size={60} />
+            <Logo size={72} />
           </div>
           <p className="text-sm md:text-base">
             © Genius Data Hub. All rights reserved.

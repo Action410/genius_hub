@@ -47,9 +47,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-            <Link href="/dashboard" className="flex items-center space-x-3">
-              <Logo size={40} />
-              <span className="text-xl font-bold text-black dark:text-white">
+            <Link href="/dashboard" className="flex items-center gap-3">
+              <Logo size={56} />
+              <span className="text-lg font-bold text-black dark:text-white leading-tight">
                 Genius Data Hub
               </span>
             </Link>

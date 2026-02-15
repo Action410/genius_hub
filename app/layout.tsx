@@ -3,7 +3,7 @@ import './globals.css'
 import { CartProvider } from '@/context/CartContext'
 import { PurchaseFlowProvider } from '@/context/PurchaseFlowContext'
 import { ThemeProvider } from '@/context/ThemeContext'
-import Header from '@/components/Header'
+import LogoBar from '@/components/LogoBar'
 import Footer from '@/components/Footer'
 import FloatingSupportButton from '@/components/FloatingSupportButton'
 import PurchaseFlowModals from '@/components/PurchaseFlowModals'
@@ -12,8 +12,9 @@ export const metadata: Metadata = {
   title: 'Genius Data Hub - Fast, Secure, Reliable Digital Services',
   description: 'Fast & Reliable Data Services. No expiry bundles.',
   icons: {
-    icon: '/assets/genius-data-hub-logo.svg',
-    shortcut: '/assets/genius-data-hub-logo.svg',
+    icon: '/assets/genius-data-hub-logo.png',
+    shortcut: '/assets/genius-data-hub-logo.png',
+    apple: '/assets/genius-data-hub-logo.png',
   },
 }
 
@@ -28,7 +29,7 @@ export default function RootLayout({
         <ThemeProvider>
           <CartProvider>
             <PurchaseFlowProvider>
-              <Header />
+              <LogoBar />
               <main className="flex-1">{children}</main>
               <Footer />
               <FloatingSupportButton />

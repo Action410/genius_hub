@@ -15,6 +15,7 @@ export default function Logo({ className = '', size = 60 }: LogoProps) {
         alt="Genius Data Hub"
         width={size}
         style={{ display: 'block', width: size, height: 'auto', objectFit: 'contain' }}
+        className="drop-shadow-lg"
       />
     </motion.div>
   )
