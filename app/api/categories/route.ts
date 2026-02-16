@@ -9,7 +9,7 @@ const CATEGORY_CONFIG: Record<
   MTN: { slug: 'mtn', label: 'MTN Data Bundle', badge: 'BEST SELLING', icon: '📱' },
   Telecel: { slug: 'telecel', label: 'Telecel Data', badge: 'FAST DELIVERY', icon: '📱' },
   AT: { slug: 'at', label: 'AT Data Bundle', badge: 'FAST DELIVERY', icon: '📱' },
-  AFA: { slug: 'afa', label: 'AFA Bundle', badge: 'AFA', icon: '📱' },
+  AFA: { slug: 'afa', label: 'AFA Registration', badge: 'Register to unlock AFA', icon: '📱' },
 }
 
 export async function GET() {

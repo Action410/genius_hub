@@ -156,7 +156,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <div className="w-8 h-8 bg-genius-red rounded-full flex items-center justifyCenter text-white font-bold">
+                  <div className="w-8 h-8 bg-genius-red rounded-full flex items-center justify-center text-white font-bold">
                     U
                   </div>
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden md:block">
