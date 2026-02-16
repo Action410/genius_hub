@@ -21,7 +21,7 @@ export default function AfaRegistrationPage() {
 
   const handleCheck = async () => {
     if (!validNumber) {
-      setError('Enter a valid Ghana MTN number (05 followed by 8 digits)')
+      setError('Enter a valid Ghana MTN number')
       return
     }
     setError(null)

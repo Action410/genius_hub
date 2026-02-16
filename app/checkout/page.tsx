@@ -1,6 +1,7 @@
 'use client'
 
 import { useCart } from '@/context/CartContext'
+import { useAfa } from '@/context/AfaContext'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
@@ -14,6 +15,7 @@ const STORE_EMAIL = process.env.NEXT_PUBLIC_STORE_EMAIL || 'receipt@geniusdatahu
 
 export default function CheckoutPage() {
   const { cart, getTotalPrice, clearCart } = useCart()
+  const { isAfaRegistered, isLoading: afaLoading } = useAfa()
   const router = useRouter()
   const [recipientNumber, setRecipientNumber] = useState('')
   const [recipientError, setRecipientError] = useState('')
@@ -22,6 +24,8 @@ export default function CheckoutPage() {
   const [showPayment, setShowPayment] = useState(false)
 
   const PAYSTACK_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || ''
+
+  const hasAfaItems = cart.some((item) => item.network?.toUpperCase() === 'AFA')
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -39,6 +43,14 @@ export default function CheckoutPage() {
     script.onerror = () => setIsPaystackReady(false)
     document.body.appendChild(script)
   }, [])
+
+  // Redirect unregistered users with AFA items to AFA registration
+  useEffect(() => {
+    if (afaLoading) return
+    if (hasAfaItems && !isAfaRegistered) {
+      router.replace('/dashboard/afa')
+    }
+  }, [hasAfaItems, isAfaRegistered, afaLoading, router])
 
   const validRecipient = isValidGhanaNumber(recipientNumber)
 
@@ -147,6 +159,17 @@ export default function CheckoutPage() {
     )
   }
 
+  if (hasAfaItems && !isAfaRegistered && !afaLoading) {
+    return (
+      <div className="min-h-screen bg-white py-12 md:py-20 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-genius-red mx-auto mb-4" />
+          <p className="text-gray-600">Redirecting to AFA registration...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-white py-12 md:py-20">
       <div className="container mx-auto px-4 max-w-2xl">
@@ -247,3 +270,4 @@ export default function CheckoutPage() {
     </div>
   )
 }
+

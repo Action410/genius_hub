@@ -120,8 +120,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </svg>
             </button>
 
-            {/* Right side - Theme toggle and Profile */}
+            {/* Right side - AFA badge, Theme toggle, Profile */}
             <div className="flex items-center space-x-4 ml-auto">
+              {/* AFA Status Badge */}
+              {!afaLoading && (
+                <Link
+                  href="/dashboard/afa"
+                  className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
+                  title={isAfaRegistered ? 'AFA Active - You can purchase AFA bundles' : 'Register for AFA to buy AFA bundles'}
+                >
+                  {isAfaRegistered ? (
+                    <span className="bg-green-500 text-white px-3 py-1 rounded-full">
+                      AFA Active
+                    </span>
+                  ) : (
+                    <span className="bg-red-500 text-white px-3 py-1 rounded-full">
+                      AFA Not Active
+                    </span>
+                  )}
+                </Link>
+              )}
+
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
@@ -137,7 +156,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  <div className="w-8 h-8 bg-genius-red rounded-full flex items-center justify-center text-white font-bold">
+                  <div className="w-8 h-8 bg-genius-red rounded-full flex items-center justifyCenter text-white font-bold">
                     U
                   </div>
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden md:block">
