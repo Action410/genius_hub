@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import { useTheme } from '@/context/ThemeContext'
+import { useAfa } from '@/context/AfaContext'
 import Logo from './Logo'
 import { motion } from 'framer-motion'
 
@@ -17,6 +18,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter()
   const { getTotalItems } = useCart()
   const { theme, toggleTheme } = useTheme()
+  const { isAfaRegistered, isLoading: afaLoading } = useAfa()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
 
@@ -25,6 +27,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     { name: 'Orders', href: '/dashboard/orders', icon: '📦', badge: null },
     { name: 'Store', href: '/', icon: '🛍️' },
     { name: 'Cart', href: '/cart', icon: '🛒', badge: getTotalItems() },
+    { name: 'AFA Registration', href: '/dashboard/afa', icon: '📱' },
     { name: 'Transactions', href: '/dashboard/transactions', icon: '💳' },
     { name: 'Agent', href: '/dashboard/agent', icon: '👤' },
     { name: 'Settings', href: '/dashboard/settings', icon: '⚙️' },
