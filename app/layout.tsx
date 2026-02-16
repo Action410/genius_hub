@@ -3,6 +3,7 @@ import './globals.css'
 import { CartProvider } from '@/context/CartContext'
 import { PurchaseFlowProvider } from '@/context/PurchaseFlowContext'
 import { ThemeProvider } from '@/context/ThemeContext'
+import { AfaProvider } from '@/context/AfaContext'
 import LogoBar from '@/components/LogoBar'
 import Footer from '@/components/Footer'
 import FloatingSupportButton from '@/components/FloatingSupportButton'
@@ -27,15 +28,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="bg-white dark:bg-gray-900 min-h-screen flex flex-col">
         <ThemeProvider>
-          <CartProvider>
-            <PurchaseFlowProvider>
-              <LogoBar />
-              <main className="flex-1 pt-[4.5rem] md:pt-24">{children}</main>
-              <Footer />
-              <FloatingSupportButton />
-              <PurchaseFlowModals />
-            </PurchaseFlowProvider>
-          </CartProvider>
+          <AfaProvider>
+            <CartProvider>
+              <PurchaseFlowProvider>
+                <LogoBar />
+                <main className="flex-1 pt-[4.5rem] md:pt-24">{children}</main>
+                <Footer />
+                <FloatingSupportButton />
+                <PurchaseFlowModals />
+              </PurchaseFlowProvider>
+            </CartProvider>
+          </AfaProvider>
         </ThemeProvider>
       </body>
     </html>
