@@ -13,7 +13,7 @@ const FILTER_TABS = [
   { id: 'MTN', label: 'MTN' },
   { id: 'Telecel', label: 'Telecel' },
   { id: 'AT', label: 'AirtelTigo' },
-  { id: 'AFA', label: 'AFA Bundle' },
+  { id: 'AFA', label: 'AFA Registration' },
 ] as const
 
 type FilterId = (typeof FILTER_TABS)[number]['id']
@@ -132,6 +132,39 @@ export default function DashboardPage() {
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-genius-red" />
           </div>
+        ) : activeFilter === 'AFA' ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-2xl mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow p-6 md:p-8"
+          >
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-12 h-12 rounded-full bg-genius-red/10 flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">📱</span>
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-black dark:text-white">
+                  MTN AFA is a special plan
+                </h3>
+                <p className="mt-2 text-sm md:text-base text-gray-600 dark:text-gray-300">
+                  Registered users can call each other for free. No talktime is included at registration.
+                  Dial <span className="font-semibold text-black dark:text-white">*1848#</span> to buy
+                  packages after registering on Genius Data Hub.
+                </p>
+              </div>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4 md:p-5 border border-gray-200 dark:border-gray-700">
+              <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 mb-4 font-semibold">
+                Ready to register your MTN number for AFA?
+              </p>
+              <a
+                href="/dashboard/afa"
+                className="inline-flex w-full justify-center items-center px-4 py-3 rounded-xl bg-genius-red text-white font-semibold hover:bg-red-700 transition-colors"
+              >
+                Go to AFA Registration
+              </a>
+            </div>
+          </motion.div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product, index) => (

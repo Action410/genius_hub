@@ -11,8 +11,10 @@ export interface CategoryCardProps {
 }
 
 export default function CategoryCard({ slug, title, badge, icon = '📱' }: CategoryCardProps) {
+  const href = slug === 'afa' ? '/dashboard/afa' : `/bundles/${slug}`
+
   return (
-    <Link href={`/bundles/${slug}`}>
+    <Link href={href}>
       <motion.article
         whileHover={{ y: -4 }}
         whileTap={{ scale: 0.98 }}

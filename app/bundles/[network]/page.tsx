@@ -1,11 +1,12 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import BundleCard from '@/components/BundleCard'
 import AfaBundleCard from '@/components/AfaBundleCard'
+import { useAfa } from '@/context/AfaContext'
 import type { Bundle } from '@/components/BundleCard'
 
 const SLUG_TO_NETWORK: Record<string, string> = {
@@ -17,8 +18,11 @@ const SLUG_TO_NETWORK: Record<string, string> = {
 
 export default function BundleListPage() {
   const params = useParams()
+  const router = useRouter()
   const networkSlug = (params?.network as string) || ''
   const networkName = SLUG_TO_NETWORK[networkSlug] || networkSlug
+  const isAfa = networkName.toUpperCase() === 'AFA'
+  const { isAfaRegistered, isLoading: afaLoading } = useAfa()
   const [bundles, setBundles] = useState<Bundle[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -35,6 +39,13 @@ export default function BundleListPage() {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
   }, [networkSlug])
+
+  // Access control: only registered users can view AFA bundle purchases
+  useEffect(() => {
+    if (isAfa && !afaLoading && !isAfaRegistered) {
+      router.replace('/dashboard/afa')
+    }
+  }, [isAfa, afaLoading, isAfaRegistered, router])
 
   if (loading) {
     return (
@@ -61,7 +72,14 @@ export default function BundleListPage() {
     )
   }
 
-  const isAfa = networkName.toUpperCase() === 'AFA'
+  // Don't render AFA bundles if not registered (redirect will run)
+  if (isAfa && !afaLoading && !isAfaRegistered) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-genius-red" />
+      </div>
+    )
+  }
 
   return (
     <div className="bg-white min-h-screen">
