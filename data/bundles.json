@@ -118,38 +118,5 @@
     "expires": false,
     "expiry_note": "No expiry",
     "description": "AFA registration bundle"
-  },
-  {
-    "id": "afa_1gb",
-    "network": "AFA",
-    "title": "1GB AFA Bundle",
-    "sizeMB": 1024,
-    "price": 4.5,
-    "badge": "AFA",
-    "expires": false,
-    "expiry_note": "No expiry",
-    "description": "1GB AFA data bundle"
-  },
-  {
-    "id": "afa_2gb",
-    "network": "AFA",
-    "title": "2GB AFA Bundle",
-    "sizeMB": 2048,
-    "price": 9.0,
-    "badge": "AFA",
-    "expires": false,
-    "expiry_note": "No expiry",
-    "description": "2GB AFA data bundle"
-  },
-  {
-    "id": "afa_5gb",
-    "network": "AFA",
-    "title": "5GB AFA Bundle",
-    "sizeMB": 5120,
-    "price": 18.0,
-    "badge": "AFA",
-    "expires": false,
-    "expiry_note": "No expiry",
-    "description": "5GB AFA data bundle"
   }
 ]
