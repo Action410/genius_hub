@@ -119,27 +119,5 @@
     "expires": false,
     "expiry_note": "No expiry",
     "description": "5GB data bundle"
-  },
-  {
-    "id": "at_10gb",
-    "network": "AT",
-    "title": "10GB AirtelTigo",
-    "sizeMB": 10240,
-    "price": 40.0,
-    "badge": "BEST SELLING",
-    "expires": false,
-    "expiry_note": "No expiry",
-    "description": "10GB data bundle"
-  },
-  {
-    "id": "at_20gb",
-    "network": "AT",
-    "title": "20GB AirtelTigo",
-    "sizeMB": 20480,
-    "price": 80.00,
-    "badge": "BEST SELLING",
-    "expires": false,
-    "expiry_note": "No expiry",
-    "description": "20GB data bundle"
   }
 ]
