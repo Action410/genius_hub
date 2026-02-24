@@ -11,6 +11,39 @@
     "description": "1GB data bundle"
   },
   {
+    "id": "mtn_15gb",
+    "network": "MTN",
+    "title": "15GB MTN",
+    "sizeMB": 15360,
+    "price": 50.0,
+    "badge": "POPULAR",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "15GB data bundle"
+  },
+  {
+    "id": "mtn_20gb",
+    "network": "MTN",
+    "title": "20GB MTN",
+    "sizeMB": 20480,
+    "price": 60.0,
+    "badge": "BEST VALUE",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "20GB data bundle"
+  },
+  {
+    "id": "mtn_50gb",
+    "network": "MTN",
+    "title": "50GB MTN",
+    "sizeMB": 51200,
+    "price": 120.0,
+    "badge": "PREMIUM",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "50GB data bundle"
+  },
+  {
     "id": "mtn_2gb",
     "network": "MTN",
     "title": "2GB MTN",
@@ -77,6 +110,39 @@
     "description": "5GB data bundle"
   },
   {
+    "id": "telecel_10gb",
+    "network": "Telecel",
+    "title": "10GB Telecel",
+    "sizeMB": 10240,
+    "price": 35.0,
+    "badge": "BEST SELLING",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "10GB data bundle"
+  },
+  {
+    "id": "telecel_15gb",
+    "network": "Telecel",
+    "title": "15GB Telecel",
+    "sizeMB": 15360,
+    "price": 50.0,
+    "badge": "POPULAR",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "15GB data bundle"
+  },
+  {
+    "id": "telecel_20gb",
+    "network": "Telecel",
+    "title": "20GB Telecel",
+    "sizeMB": 20480,
+    "price": 60.0,
+    "badge": "BEST VALUE",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "20GB data bundle"
+  },
+  {
     "id": "at_1gb",
     "network": "AT",
     "title": "1GB AirtelTigo",
@@ -110,13 +176,36 @@
     "description": "5GB data bundle"
   },
   {
-    "id": "afa_reg",
-    "network": "AFA",
-    "title": "AFA Registration Bundle",
-    "price": 2.0,
-    "badge": "AFA",
+    "id": "at_10gb",
+    "network": "AT",
+    "title": "10GB AirtelTigo",
+    "sizeMB": 10240,
+    "price": 35.0,
+    "badge": "BEST SELLING",
     "expires": false,
     "expiry_note": "No expiry",
-    "description": "AFA registration bundle"
+    "description": "10GB data bundle"
+  },
+  {
+    "id": "at_15gb",
+    "network": "AT",
+    "title": "15GB AirtelTigo",
+    "sizeMB": 15360,
+    "price": 50.0,
+    "badge": "POPULAR",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "15GB data bundle"
+  },
+  {
+    "id": "at_20gb",
+    "network": "AT",
+    "title": "20GB AirtelTigo",
+    "sizeMB": 20480,
+    "price": 60.0,
+    "badge": "BEST VALUE",
+    "expires": false,
+    "expiry_note": "No expiry",
+    "description": "20GB data bundle"
   }
 ]
