@@ -93,7 +93,7 @@ export default function BundleSelectionModal({
                       id="recipient-number"
                       type="tel"
                       inputMode="numeric"
-                      placeholder="05XXXXXXXX"
+                      placeholder="0XXXXXXXXX"
                       value={recipientNumber}
                       onChange={(e) => onRecipientChange(e.target.value.replace(/\D/g, '').slice(0, 10))}
                       className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-genius-red ${
@@ -102,7 +102,7 @@ export default function BundleSelectionModal({
                     />
                 {recipientNumber && !validNumber && (
                   <p className="text-sm text-red-600 mt-1">
-                    Enter a valid Ghana number (05 followed by 8 digits)
+                    Enter a valid Ghana number 10 ( digits starting with 0) 
                   </p>
                 )}
               </div>
