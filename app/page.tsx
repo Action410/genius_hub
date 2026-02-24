@@ -61,14 +61,22 @@ export default function StoreHome() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-8"
+          className="mb-8 flex justify-between items-center"
         >
-          <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">
-            Choose a network
-          </h1>
-          <p className="text-gray-600">
-            Select a category to view data bundles. All bundles come with no expiry.
-          </p>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">
+              Choose a network
+            </h1>
+            <p className="text-gray-600">
+              Select a category to view data bundles. All bundles come with no expiry.
+            </p>
+          </div>
+          <Link
+            href="/dashboard"
+            className="text-genius-red font-semibold hover:underline flex items-center"
+          >
+            ← Back to Dashboard
+          </Link>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
