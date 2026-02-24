@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import BundleCard from '@/components/BundleCard'
-import AfaBundleCard from '@/components/AfaBundleCard'
 import { useAfa } from '@/context/AfaContext'
 import type { Bundle } from '@/components/BundleCard'
 
@@ -111,11 +110,7 @@ export default function BundleListPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
             >
-              {isAfa ? (
-                <AfaBundleCard bundle={bundle} />
-              ) : (
-                <BundleCard bundle={bundle} />
-              )}
+              <BundleCard bundle={bundle} />
             </motion.div>
           ))}
         </div>
